@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputForm from '../Elements/Input';
 import Button from '../Elements/Button/Button';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -49,12 +49,15 @@ const FormRegister = () => {
             setTimeout(() => {
                 window.location.href = '/login';
             }, 4000);
-            console.log('User registered successfully', user);
         } catch (error) {
             toast.error(error.message, { position: 'bottom-center', autoClose: 2500 });
             console.log(error.message);
         }
     };
+
+    useEffect(() => {
+        document.title = 'Register';
+    }, []);
 
     return (
         <form onSubmit={hanldeOnSubmitRegister}>

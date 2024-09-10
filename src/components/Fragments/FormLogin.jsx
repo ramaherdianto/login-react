@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputForm from '../Elements/Input';
 import Button from '../Elements/Button/Button';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase/firebase';
 import { toast } from 'react-toastify';
+import { login } from '../../services/auth.services';
 
 const FormLogin = () => {
     const [formLogin, setFormLogin] = useState({
@@ -19,25 +18,46 @@ const FormLogin = () => {
         });
     };
 
+    useEffect(() => {
+        const token = localStorage.getItem('tokenFirebase');
+        if (token) {
+            window.location.href = '/welcome';
+        } else {
+            return;
+        }
+    }, []);
+
     const hanldeLogin = async (e) => {
         e.preventDefault();
         try {
-            const userCredential = await signInWithEmailAndPassword(
-                auth,
-                formLogin.email,
-                formLogin.password
-            );
-            toast.success('User Logged In Seccessfully', {
-                position: 'top-center',
-                autoClose: 2000,
-            });
-            setTimeout(() => {
-                window.location.href = '/welcome';
-            }, 1500);
+            if (formLogin.email.trim() === '' || formLogin.password.trim() === '') {
+                toast.error('Please fill in all input fields', {
+                    position: 'bottom-center',
+                    autoClose: 2000,
+                });
+            } else {
+                login(formLogin.email, formLogin.password, (status, res) => {
+                    if (status) {
+                        const token = res;
+                        localStorage.setItem('tokenFirebase', token);
+                        toast.success('User Logged In Successfully', {
+                            position: 'top-center',
+                            autoClose: 2000,
+                        });
+                        setTimeout(() => {
+                            window.location.href = '/welcome';
+                        }, 3000);
+                    }
+                });
+            }
         } catch (error) {
             toast.error(error.message, { position: 'bottom-center', autoClose: 2000 });
         }
     };
+
+    useEffect(() => {
+        document.title = 'Login';
+    }, []);
 
     return (
         <form onSubmit={hanldeLogin}>
