@@ -6,13 +6,20 @@ import { getFirestore } from 'firebase/firestore';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+const apiKey = import.meta.env.VITE_FIREBASE_APIKEY;
+const authDomain = import.meta.env.VITE_FIREBASE_AUTHDOMAIN;
+const projectId = import.meta.env.VITE_FIREBASE_PROJECTID;
+const storageBucket = import.meta.env.VITE_FIREBASE_STORAGEBUCKET;
+const messagingSenderId = import.meta.env.VITE_FIREBASE_MESSAGINGSENDERID;
+const appId = import.meta.env.VITE_FIREBASE_APPID;
+
 const firebaseConfig = {
-    apiKey: 'AIzaSyB_51QhdHeyFBcWVT1jzBUxsmOMkpQfH3g',
-    authDomain: 'auth-react-dc60c.firebaseapp.com',
-    projectId: 'auth-react-dc60c',
-    storageBucket: 'auth-react-dc60c.appspot.com',
-    messagingSenderId: '844359535074',
-    appId: '1:844359535074:web:45adf904b1fd99870ed1bb',
+    apiKey: apiKey,
+    authDomain: authDomain,
+    projectId: projectId,
+    storageBucket: storageBucket,
+    messagingSenderId: messagingSenderId,
+    appId: appId,
 };
 
 // Initialize Firebase
