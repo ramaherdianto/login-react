@@ -94,7 +94,7 @@ const FormRegister = () => {
                 id='password'
                 placeholder='*****'
             />
-            <Button type='submit' className='w-full'>
+            <Button type='submit' className='w-full text-white'>
                 Register
             </Button>
         </form>
