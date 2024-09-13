@@ -25,30 +25,46 @@ const FormRegister = () => {
     const hanldeOnSubmitRegister = async (e) => {
         e.preventDefault();
         try {
-            await createUserWithEmailAndPassword(auth, formRegister.email, formRegister.password);
-            const user = auth.currentUser;
-            if (user) {
-                await setDoc(doc(db, 'users', user.uid), {
-                    email: user.email,
-                    firstName: formRegister.firstName,
-                    lastName: formRegister.lastName,
-                    displayName: formRegister.firstName + ' ' + formRegister.lastName,
-                    photo: '',
+            if (
+                formRegister.firstName.trim() === '' ||
+                formRegister.lastName.trim() === '' ||
+                formRegister.email.trim() === '' ||
+                formRegister.password.trim() === ''
+            ) {
+                toast.error('Please fill in all input fields!', {
+                    position: 'top-center',
+                    autoClose: 2000,
                 });
+            } else {
+                await createUserWithEmailAndPassword(
+                    auth,
+                    formRegister.email,
+                    formRegister.password
+                );
+                const user = auth.currentUser;
+                if (user) {
+                    await setDoc(doc(db, 'users', user.uid), {
+                        email: user.email,
+                        firstName: formRegister.firstName,
+                        lastName: formRegister.lastName,
+                        displayName: formRegister.firstName + ' ' + formRegister.lastName,
+                        photo: '',
+                    });
+                }
+                setFormRegister({
+                    email: '',
+                    firstName: '',
+                    lastName: '',
+                    password: '',
+                });
+                toast.success('User Registered Successfully', {
+                    position: 'top-center',
+                    autoClose: 2000,
+                });
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 4000);
             }
-            setFormRegister({
-                email: '',
-                firstName: '',
-                lastName: '',
-                password: '',
-            });
-            toast.success('User Registered Successfully', {
-                position: 'top-center',
-                autoClose: 2000,
-            });
-            setTimeout(() => {
-                window.location.href = '/login';
-            }, 4000);
         } catch (error) {
             toast.error(error.message, { position: 'bottom-center', autoClose: 2500 });
             console.log(error.message);

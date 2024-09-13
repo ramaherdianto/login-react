@@ -5,26 +5,10 @@ import { toast } from 'react-toastify';
 import { useUserDetail } from '../../hooks/useUserDetail';
 import { Card } from './Card';
 import { Link } from 'react-router-dom';
+import { useLogout } from '../../hooks/useLogout';
 
 const Welcome = () => {
     const userDetail = useUserDetail();
-
-    const handleLogout = async (e) => {
-        e.preventDefault();
-        try {
-            await auth.signOut();
-            localStorage.removeItem('tokenFirebase');
-            toast.success('User Logged Out Successfully', {
-                position: 'top-right',
-                autoClose: 2000,
-            });
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 3000);
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
 
     useEffect(() => {
         document.title = 'Welcome aboard';
@@ -46,7 +30,7 @@ const Welcome = () => {
                         </Card.Body>
                         <Card.Footer>
                             <Button
-                                onClick={handleLogout}
+                                onClick={useLogout}
                                 className='bg-transparent text-slate-800 font-bold'
                             >
                                 Logout

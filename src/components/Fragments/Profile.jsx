@@ -3,28 +3,10 @@ import { Card } from './Card';
 import { useUserDetail } from '../../hooks/useUserDetail';
 import { Link } from 'react-router-dom';
 import Button from '../Elements/Button/Button';
-import { auth } from '../../firebase/firebase';
-import { toast } from 'react-toastify';
+import { useLogout } from '../../hooks/useLogout';
 
 const Profile = () => {
     const userDetail = useUserDetail();
-
-    const handleLogout = async (e) => {
-        e.preventDefault();
-        try {
-            await auth.signOut();
-            localStorage.removeItem('tokenFirebase');
-            toast.success('User Logged Out Successfully', {
-                position: 'top-right',
-                autoClose: 2000,
-            });
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 3000);
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
 
     useEffect(() => {
         const token = localStorage.getItem('tokenFirebase');
@@ -33,6 +15,10 @@ const Profile = () => {
         } else {
             window.location.href = '/login';
         }
+    }, []);
+
+    useEffect(() => {
+        document.title = 'Profile';
     }, []);
 
     return (
@@ -78,10 +64,7 @@ const Profile = () => {
                     >
                         Back
                     </Link>
-                    <Button
-                        onClick={handleLogout}
-                        className='bg-transparent text-slate-800 font-bold'
-                    >
+                    <Button onClick={useLogout} className='bg-transparent text-slate-800 font-bold'>
                         Logout
                     </Button>
                 </Card.Footer>
