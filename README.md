@@ -1,15 +1,17 @@
-
 # Register and Login App (Still Under Development!)
 
 Simple form resgister and login.
 
+## Features
+
+-   User Register
+-   User Login
 
 ## Tech Stack
 
-**Client:** React Vite, JWT-Decode, TailwindCSS, React Toastify
+**Client:** React, JWT-Decode, TailwindCSS, React Toastify
 
 **Server:** Firebase
-
 
 ## Run Locally
 
@@ -42,4 +44,3 @@ Start the server
 ```bash
   yarn run dev
 ```
-
