@@ -27,31 +27,32 @@ const FormLogin = () => {
         }
     }, []);
 
-    const hanldeLogin = async (e) => {
+    const hanldeLogin = (e) => {
         e.preventDefault();
-        try {
-            if (formLogin.email.trim() === '' || formLogin.password.trim() === '') {
-                toast.error('Please fill in all input fields', {
-                    position: 'bottom-center',
-                    autoClose: 2000,
-                });
-            } else {
-                login(formLogin.email, formLogin.password, (status, res) => {
-                    if (status) {
-                        const token = res;
-                        localStorage.setItem('tokenFirebase', token);
-                        toast.success('User Logged In Successfully', {
-                            position: 'top-center',
-                            autoClose: 2000,
-                        });
-                        setTimeout(() => {
-                            window.location.href = '/welcome';
-                        }, 3000);
-                    }
-                });
-            }
-        } catch (error) {
-            toast.error(error.message, { position: 'bottom-center', autoClose: 2000 });
+        if (formLogin.email.trim() === '' || formLogin.password.trim() === '') {
+            toast.error('Please fill in all input fields', {
+                position: 'top-center',
+                autoClose: 2000,
+            });
+        } else {
+            login(formLogin.email, formLogin.password, (status, res) => {
+                if (status) {
+                    const token = res;
+                    localStorage.setItem('tokenFirebase', token);
+                    toast.success('User Logged In Successfully', {
+                        position: 'top-center',
+                        autoClose: 2000,
+                    });
+                    setTimeout(() => {
+                        window.location.href = '/welcome';
+                    }, 3000);
+                } else {
+                    toast.error(res, {
+                        position: 'top-center',
+                        autoClose: 2000,
+                    });
+                }
+            });
         }
     };
 
