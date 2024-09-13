@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import InputForm from '../Elements/Input';
 import Button from '../Elements/Button/Button';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -16,6 +16,7 @@ const FormRegister = () => {
     });
 
     const { isShowPassword, handleShowPassword } = useShowPassword();
+    const inputFocus = useRef();
 
     const handleOnRegisterChange = (e) => {
         const { name, value } = e.target;
@@ -78,9 +79,14 @@ const FormRegister = () => {
         document.title = 'Register';
     }, []);
 
+    useEffect(() => {
+        inputFocus.current.focus();
+    }, []);
+
     return (
         <form onSubmit={hanldeOnSubmitRegister} className='relative'>
             <InputForm
+                ref={inputFocus}
                 onChange={handleOnRegisterChange}
                 value={formRegister.firstName}
                 type='text'

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import InputForm from '../Elements/Input';
 import Button from '../Elements/Button/Button';
 import { toast } from 'react-toastify';
@@ -12,6 +12,7 @@ const FormLogin = () => {
     });
 
     const { isShowPassword, handleShowPassword } = useShowPassword();
+    const inputFocus = useRef();
 
     const onLoginChange = (e) => {
         const { name, value } = e.target;
@@ -63,10 +64,15 @@ const FormLogin = () => {
         document.title = 'Login';
     }, []);
 
+    useEffect(() => {
+        inputFocus.current.focus();
+    }, []);
+
     return (
         <form onSubmit={hanldeLogin} className='relative'>
             <InputForm
                 onChange={onLoginChange}
+                ref={inputFocus}
                 type='email'
                 label='Email'
                 name='email'
